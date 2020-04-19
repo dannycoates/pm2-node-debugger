@@ -1,0 +1,90 @@
+{
+	"name": "pm2-node-debugger",
+	"displayName": "PM2 Node Debugger",
+	"description": "",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.44.0"
+	},
+	"categories": [
+		"Debuggers"
+	],
+	"activationEvents": [
+		"onDebug:pm2-node",
+		"onDebugResolve:pm2-node"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"debuggers": [
+			{
+				"type": "pm2-node",
+				"label": "PM2 node debug",
+				"languages": [
+					"javascript",
+					"typescript",
+					"javascriptreact",
+					"typescriptreact"
+				],
+				"variables": {
+					"PickProcess": "extension.pickPM2Process"
+				},
+				"configurationAttributes": {
+					"attach": {
+						"properties": {
+							"service": {
+								"type": "string",
+								"description": "PM2 Service name"
+							}
+						}
+					}
+				},
+				"initialConfigurations": [
+					{
+						"type": "pm2-node",
+						"request": "attach",
+						"name": "${1:Attach via PM2}",
+						"service": "^\"\\${command:PickProcess}\""
+					}
+				],
+				"configurationSnippets": [
+					{
+						"label": "PM2: Attach Configuration",
+						"description": "A new configuration for attaching to a running PM2 service",
+						"body": {
+							"type": "pm2-node",
+							"request": "attach",
+							"name": "${1:Attach via PM2}",
+							"service": "^\"\\${command:PickProcess}\""
+						}
+					}
+				]
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint src --ext ts",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.44.0",
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^7.0.2",
+		"@types/node": "^13.11.0",
+		"eslint": "^6.8.0",
+		"@typescript-eslint/parser": "^2.26.0",
+		"@typescript-eslint/eslint-plugin": "^2.26.0",
+		"glob": "^7.1.6",
+		"mocha": "^7.1.1",
+		"typescript": "^3.8.3",
+		"vscode-test": "^1.3.0"
+	},
+	"dependencies": {
+		"pm2": "^4.3.0",
+		"vscode-chrome-debug-core": "^6.8.7",
+		"vscode-debugadapter": "^1.37.1"
+	}
+}
