@@ -56,8 +56,8 @@
 				],
 				"configurationSnippets": [
 					{
-						"label": "PM2: Attach Configuration",
-						"description": "A new configuration for attaching to a running PM2 service",
+						"label": "PM2: Attach",
+						"description": "A configuration for attaching to a running PM2 node.js service",
 						"body": {
 							"type": "pm2-node",
 							"request": "attach",
