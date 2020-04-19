@@ -35,6 +35,9 @@
 				},
 				"configurationAttributes": {
 					"attach": {
+						"required": [
+							"service"
+						],
 						"properties": {
 							"service": {
 								"type": "string",
@@ -91,28 +94,26 @@
 		"vscode-test": "^1.3.0"
 	},
 	"dependencies": {
-		"pm2": "^4.3.0",
-		"vscode-chrome-debug-core": "^6.8.7",
-		"vscode-debugadapter": "^1.37.1"
+		"pm2": "^4.3.0"
 	},
 	"husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint -c .eslintrc",
-      "prettier --write"
-    ],
-    "*.{ts,tsx}": [
-      "prettier --write"
-    ],
-    "*.css": [
-      "prettier --write"
-    ],
-    "*.md": [
-      "prettier --write"
-    ]
-  }
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"*.js": [
+			"eslint -c .eslintrc",
+			"prettier --write"
+		],
+		"*.{ts,tsx}": [
+			"prettier --write"
+		],
+		"*.css": [
+			"prettier --write"
+		],
+		"*.md": [
+			"prettier --write"
+		]
+	}
 }
