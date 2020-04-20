@@ -86,7 +86,7 @@ class Pm2NodeDebugConfigurationProvider
     }
     const pid = parseInt(serviceInfo[1], 10);
     cfg.name = name;
-    cfg.port = parseInt(serviceInfo[2], 10) || 9229;
+    cfg.port = parseInt(serviceInfo[2], 10);
     await signal(pid, cfg.port);
     delete cfg.service;
     cfg.type = cfg.useV3 ? "pwa-node" : "node2";

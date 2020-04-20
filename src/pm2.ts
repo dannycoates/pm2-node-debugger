@@ -15,7 +15,7 @@ function matchPort(str: string) {
   const match = inspectRE.exec(str);
   if (match) {
     // ignore 'host', PM2 is a local process
-    return parseInt(match[2], 10);
+    return parseInt(match[2], 10) || 9229;
   }
   return null;
 }
