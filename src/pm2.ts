@@ -1,14 +1,21 @@
 import * as vscode from "vscode";
+// The PM2 typedef isn't very accurate
 // @ts-ignore
 import { custom as PM2api } from "pm2";
 import type * as PM2API from "pm2";
 
-const inspectRE = /--inspect=(\d+)/;
+const inspectRE = /--inspect(?:-brk)?(?:=(?:(\[[0-9a-fA-F:]*\]|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+|[a-zA-Z0-9\.]*):)?(\d+))?/;
+const inspectPortRE = /--inspect-port=(\d+)/;
 
 function matchPort(str: string) {
+  const portMatch = inspectPortRE.exec(str);
+  if (portMatch) {
+    return parseInt(portMatch[1], 10);
+  }
   const match = inspectRE.exec(str);
   if (match) {
-    return parseInt(match[1], 10);
+    // ignore 'host', PM2 is a local process
+    return parseInt(match[2], 10);
   }
   return null;
 }
@@ -22,7 +29,6 @@ export class PM2 {
   pm2api: typeof PM2API;
 
   static async connect() {
-    console.log("connecting");
     const instance = new PM2api();
     await new Promise((resolve, reject) => {
       instance.connect((err: Error, meta: any) => {
@@ -30,7 +36,6 @@ export class PM2 {
           return reject(err);
         }
         resolve(meta);
-        console.log("connected");
       });
     });
     return new PM2(instance);
@@ -72,6 +77,7 @@ export class PM2 {
           label: p.name,
           description,
           status: p.pm2_env?.status,
+          pid: p.pid,
           debugPort: findDebugPort(p),
           // @ts-ignore
           port: p.pm2_env.PORT,
@@ -86,7 +92,9 @@ export class PM2 {
       canPickMany: false,
     });
 
-    return item ? `${item.label}|${item.debugPort}|${item.port}` : null;
+    return item
+      ? `${item.label}|${item.pid}|${item.debugPort}|${item.port}`
+      : null;
   }
 
   dispose() {
