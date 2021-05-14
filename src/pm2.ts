@@ -4,8 +4,9 @@ import * as vscode from "vscode";
 import { custom as PM2api } from "pm2";
 import type * as PM2API from "pm2";
 
-const inspectRE = /--inspect(?:-brk)?(?:=(?:(\[[0-9a-fA-F:]*\]|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+|[a-zA-Z0-9\.]*):)?(\d+))?/;
-const inspectPortRE = /--inspect-port=(\d+)/;
+const inspectRE =
+  /--inspect(?:-brk)?(?:=(?:(\[[0-9a-fA-F:]*\]|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+|[a-zA-Z0-9\.]*):)?(\d+))?/;
+const inspectPortRE = /--(?:inspect-port|debug)=(\d+)/;
 
 function matchPort(str: string) {
   const portMatch = inspectPortRE.exec(str);

@@ -50,24 +50,8 @@ async function signal(pid: number, port: number) {
 }
 
 class Pm2NodeDebugConfigurationProvider
-  implements vscode.DebugConfigurationProvider {
-  async resolveDebugConfiguration(
-    folder: vscode.WorkspaceFolder | undefined,
-    cfg: vscode.DebugConfiguration
-  ): Promise<vscode.DebugConfiguration> {
-    if (vscode.workspace.getConfiguration().get("debug.node.useV3", false)) {
-      // ensure it's available and active
-      const x = vscode.extensions.getExtension("ms-vscode.js-debug-nightly");
-      if (x) {
-        if (!x.isActive) {
-          await x.activate();
-        }
-        cfg.__workspaceFolder = "${workspaceFolder}";
-        cfg.useV3 = true;
-      }
-    }
-    return cfg;
-  }
+  implements vscode.DebugConfigurationProvider
+{
   async resolveDebugConfigurationWithSubstitutedVariables(
     folder: vscode.WorkspaceFolder | undefined,
     cfg: vscode.DebugConfiguration
@@ -89,8 +73,7 @@ class Pm2NodeDebugConfigurationProvider
     cfg.port = parseInt(serviceInfo[2], 10);
     await signal(pid, cfg.port);
     delete cfg.service;
-    cfg.type = cfg.useV3 ? "pwa-node" : "node2";
-    delete cfg.useV3;
+    cfg.type = "pwa-node";
     return cfg;
   }
 }
