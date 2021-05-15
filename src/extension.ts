@@ -71,6 +71,10 @@ class Pm2NodeDebugConfigurationProvider
     const pid = parseInt(serviceInfo[1], 10);
     cfg.name = name;
     cfg.port = parseInt(serviceInfo[2], 10);
+    cfg.restart = {
+      delay: 250,
+      maxAttempts: 40,
+    };
     await signal(pid, cfg.port);
     delete cfg.service;
     cfg.type = "pwa-node";

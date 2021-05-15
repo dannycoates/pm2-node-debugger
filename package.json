@@ -7,7 +7,7 @@
 		"type": "git",
 		"url": "https://github.com/dannycoates/pm2-node-debugger.git"
 	},
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"engines": {
 		"vscode": "^1.44.0"
 	},
@@ -70,7 +70,7 @@
 		]
 	},
 	"scripts": {
-		"vscode:prepublish": "npm ci --production && npx -p typescript tsc -p tsconfig.production.json",
+		"vscode:prepublish": "npm ci --production && npx -p typescript tsc -p tsconfig.json",
 		"compile": "tsc -p ./",
 		"lint": "eslint src --ext ts",
 		"watch": "tsc -watch -p ./",
